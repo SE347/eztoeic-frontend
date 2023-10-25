@@ -74,7 +74,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       }
       setUser(data.user);
       setIsAuthenticated(data.isAuthenticated);
-      // setupAxiosInterceptors(data.accessToken);
+      setupAxiosInterceptors(data.accessToken);
     }
   }, []);
   return (
