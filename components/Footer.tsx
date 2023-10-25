@@ -73,7 +73,7 @@ export default function Footer() {
       </Container>
       <Container className={classes.afterFooter}>
         <Text c="dimmed" size="sm">
-          © 2020 mantine.dev. All rights reserved.
+          © 2023 eztoeic. All rights reserved.
         </Text>
 
         <Group
