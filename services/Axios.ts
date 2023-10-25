@@ -11,9 +11,10 @@ export const axiosInstance = axios.create({
   },
 });
 
-export const setupAxiosInterceptors = (authToken: string) => {
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const { logout } = useAuth();
+export const setupAxiosInterceptors = (
+  authToken: string,
+  logout: () => void
+) => {
   axiosInstance.interceptors.request.use(
     (config: InternalAxiosRequestConfig) => {
       if (authToken) {

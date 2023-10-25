@@ -2,7 +2,8 @@
 import ContinuousBanner from "@/components/ContinuousBanner";
 import TestCard from "@/components/TestCard";
 import { GET_TEST_URL } from "@/constants/AppConstants";
-import { axiosInstance } from "@/services/Axios";
+import { DataStorage } from "@/contexts/AuthContext";
+import { axiosInstance, setupAxiosInterceptors } from "@/services/Axios";
 import { Loader, SimpleGrid, Text } from "@mantine/core";
 import { useEffect, useState } from "react";
 
@@ -14,12 +15,13 @@ export default function MainPage() {
   }, []);
   const fetchData = async () => {
     setIsLoading(true);
-    const response = await axiosInstance.get(
-      `${GET_TEST_URL}?page=1&search=ets`
-    );
-    const data: Test[] = response.data.tests;
-    setTests(data);
-    setIsLoading(false);
+    await axiosInstance.get(`${GET_TEST_URL}?page=1&search=ets`).then((res) => {
+      if (res.data && res.data.tests) {
+        const { tests } = res.data;
+        setTests(tests);
+        setIsLoading(false);
+      }
+    });
   };
   return (
     <div

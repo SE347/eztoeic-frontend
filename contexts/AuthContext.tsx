@@ -1,7 +1,7 @@
 "use client";
 import { LoginFormValues } from "@/interface/Form";
 import User from "@/interface/User";
-import AuthService from "@/services/AuthService";
+import { signIn } from "@/services/AuthService";
 import { setupAxiosInterceptors } from "@/services/Axios";
 import { isTokenExpired } from "@/utils/Jwt";
 import { useRouter } from "next/navigation";
@@ -21,7 +21,7 @@ type AuthContextData = {
   isLoading: boolean;
 };
 
-interface DataStorage {
+export interface DataStorage {
   user: User;
   isAuthenticated: boolean;
   accessToken: string;
@@ -41,7 +41,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const login = async (data: LoginFormValues) => {
     setIsLoading(true);
     try {
-      const response = await AuthService.login(data);
+      const response = await signIn(data);
       const { user, accessToken } = response;
       const dataStorage: DataStorage = {
         user: user,
@@ -52,7 +52,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       setUser(user);
       setIsAuthenticated(true);
       setIsLoading(false);
-      setupAxiosInterceptors(accessToken);
+      setupAxiosInterceptors(accessToken, logout);
       router.replace("/");
     } catch (error) {
       setIsLoading(false);
@@ -67,14 +67,14 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     const dataStorage = localStorage.getItem("dataStorage");
     if (dataStorage !== null) {
       const data: DataStorage = JSON.parse(dataStorage);
-      console.log(data.accessToken);
+      // console.log(data.accessToken);
       if (isTokenExpired(data.accessToken)) {
         logout();
         return;
       }
       setUser(data.user);
       setIsAuthenticated(data.isAuthenticated);
-      setupAxiosInterceptors(data.accessToken);
+      setupAxiosInterceptors(data.accessToken, logout);
     }
   }, []);
   return (
