@@ -53,7 +53,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       setIsAuthenticated(true);
       setIsLoading(false);
       setupAxiosInterceptors(accessToken, logout);
-      router.replace("/");
+      router.push("/");
     } catch (error) {
       setIsLoading(false);
     }

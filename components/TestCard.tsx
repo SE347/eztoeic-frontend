@@ -1,8 +1,9 @@
 import { Paper, Text, Button } from "@mantine/core";
 import classes from "../styles/TestCard.module.css";
 import { useRouter } from "next/navigation";
+import { TestInfo } from "@/interface/Test";
 
-const TestCard = ({ test }: { test: Test }) => {
+const TestCard = ({ test }: { test: TestInfo }) => {
   const router = useRouter();
   return (
     <Paper withBorder radius="md" className={classes.card}>

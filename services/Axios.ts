@@ -1,8 +1,11 @@
 "use client";
 import { MAIN_URL } from "@/constants/AppConstants";
-import { useAuth } from "@/contexts/AuthContext";
 
-import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
+import axios, {
+  AxiosError,
+  InternalAxiosRequestConfig,
+  AxiosResponse,
+} from "axios";
 
 export const axiosInstance = axios.create({
   baseURL: MAIN_URL,
@@ -21,16 +24,13 @@ export const setupAxiosInterceptors = (
         config.headers.Authorization = `Bearer ${authToken}`;
       }
       return config;
-    },
-    (error: AxiosError) => {
-      return Promise.reject(error);
     }
   );
   axiosInstance.interceptors.response.use(
-    (res: any) => {
-      return res.data;
+    (res: AxiosResponse) => {
+      return res;
     },
-    async (error: AxiosError) => {
+    (error: AxiosError) => {
       const statusCode = error.response?.status;
       switch (statusCode) {
         case 401: {

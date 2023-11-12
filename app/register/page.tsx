@@ -1,8 +1,7 @@
 "use client";
-import { PasswordStrength } from "@/components/PasswordStrengh";
 import { REGEX_PASSWORD, REGEX_PHONE } from "@/constants/Regex";
 import { RegisterFormValues } from "@/interface/Form";
-import AuthService from "@/services/AuthService";
+import { register } from "@/services/AuthService";
 
 import {
   Container,
@@ -53,7 +52,7 @@ function RegisterPage() {
   const handleSubmit = async (values: RegisterFormValues) => {
     try {
       setIsLoading(true);
-      await AuthService.register(values);
+      await register(values);
       setIsLoading(false);
       registerForm.reset();
     } catch (e) {
