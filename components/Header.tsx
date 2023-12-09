@@ -7,7 +7,7 @@ import { ThemeModeButton } from "./ThemeModeButton";
 import { useAuth } from "@/contexts/AuthContext";
 import CustomAvatar from "./CustomAvatar";
 const links = [
-  { link: "/about", label: "Course" },
+  { link: "/course", label: "Course" },
   { link: "/pricing", label: "Test Online" },
   { link: "/learn", label: "Flashcards" },
 ];

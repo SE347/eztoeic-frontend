@@ -2,7 +2,7 @@
 import { REGEX_PASSWORD, REGEX_PHONE } from "@/constants/Regex";
 import { RegisterFormValues } from "@/interface/Form";
 import { register } from "@/services/AuthService";
-
+import { axiosInstance } from "@/services/Axios";
 import {
   Container,
   Title,
@@ -65,6 +65,8 @@ function RegisterPage() {
   const [phone, setPhone] = useState('')
   const [birth, setBirth] = useState(new Date(0))
 
+  const [userId, setUserId] = useState(null)
+
   if (typeof window !== 'undefined') {
     const getUserInfo = () => {
       const ds = localStorage.getItem("dataStorage")
@@ -76,13 +78,24 @@ function RegisterPage() {
     }
 
     useEffect(() => {
-      console.log("use effect")
-
       setEmail(getUserInfo()["user"]["name"])
       setPhone(getUserInfo()["user"]["phone"])
       setBirth(new Date(getUserInfo()["user"]["dateOfBirth"]))
 
       setFullName(getUserInfo()["user"]["email"])
+
+      setUserId(getUserInfo()["user"]["id"])
+    }, [])
+  }
+
+  const updateUserInfo = () => {
+    setIsLoading(true);
+    axiosInstance.put("/user/profiles/" + userId, {
+      "name": fullname,
+      "dob": birth,
+      "phone": phone
+    }).then((res) => {
+      setIsLoading(false);
     })
   }
 
@@ -105,29 +118,29 @@ function RegisterPage() {
             placeholder="Your full name"
             value={fullname}
             onChange={(event) => setFullName(event.currentTarget.value)}
-            //{...registerForm.getInputProps("fullName")}
+          //{...registerForm.getInputProps("fullName")}
           />
           <TextInput
             label="Phone"
             placeholder="Your phone"
             value={phone}
             onChange={(event) => setPhone(event.currentTarget.value)}
-            //{...registerForm.getInputProps("phone")}
+          //{...registerForm.getInputProps("phone")}
           />
           <DatePickerInput
             label="Date Of Birth"
             placeholder="Pick date"
             value={birth}
-            //{...registerForm.getInputProps("dateOfBirth")}
+          //{...registerForm.getInputProps("dateOfBirth")}
           />
           <TextInput
             label="Email"
             placeholder="example@gmail.com"
             value={email}
             onChange={(event) => setEmail(event.currentTarget.value)}
-            //{...registerForm.getInputProps("email")}
+          //{...registerForm.getInputProps("email")}
           />
-          <Button fullWidth mt="xl" type="submit" loading={isLoading}>
+          <Button fullWidth mt="xl" type="submit" loading={isLoading} onClick={updateUserInfo}>
             Update your account
           </Button>
         </Paper>
