@@ -59,12 +59,6 @@ export default function LoginPage() {
             mt="md"
             {...form.getInputProps("password")}
           />
-          {/* <Group justify="space-between" mt="lg">
-            <Checkbox label="Remember me" />
-            <Anchor component="button" size="sm">
-              Forgot password?
-            </Anchor>
-          </Group> */}
           <Button fullWidth mt="xl" type="submit" loading={isLoading}>
             Sign in
           </Button>

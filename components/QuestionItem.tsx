@@ -17,19 +17,27 @@ function QuestionItem({
     .map((_, i) => question[tag[i]]);
   const [value, setValue] = useState<string | undefined>(undefined);
   return (
-    <div style={{ display: "flex", flexDirection: "column", marginTop: 8 }}>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        marginTop: 15,
+        marginBottom: 15,
+      }}
+    >
       {question.imageUrl != null ? (
         <Image
-          src={"https://study4.com/media/ets2023/img/1/image3.png"}
+          src={question.imageUrl}
           alt=""
           w="20%"
           fit="cover"
+          style={{ marginTop: 15, marginBottom: 15 }}
         />
       ) : (
         <></>
       )}
       {question.audioUrl != null ? (
-        <audio controls>
+        <audio controls style={{ marginBottom: 15 }}>
           <source src={question.audioUrl} type="audio/mp4" />
         </audio>
       ) : (
@@ -51,7 +59,7 @@ function QuestionItem({
             style={{ marginBottom: 6 }}
             value={tag[index]}
             label={`${tag[index]}. ${answer ?? ""}`}
-            key={answer}
+            key={index.toString() + "answer"}
           />
         ))}
       </Radio.Group>

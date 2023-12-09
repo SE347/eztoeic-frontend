@@ -2,7 +2,7 @@
 import { LoginFormValues } from "@/interface/Form";
 import User from "@/interface/User";
 import { signIn } from "@/services/AuthService";
-import { setupAxiosInterceptors } from "@/services/Axios";
+// import { setupAxiosInterceptors } from "@/services/Axios";
 import { isTokenExpired } from "@/utils/Jwt";
 import { useRouter } from "next/navigation";
 import {
@@ -48,11 +48,12 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         isAuthenticated: true,
         accessToken: accessToken,
       };
+      localStorage.setItem("accessToken",accessToken);
       localStorage.setItem("dataStorage", JSON.stringify(dataStorage));
       setUser(user);
       setIsAuthenticated(true);
       setIsLoading(false);
-      setupAxiosInterceptors(accessToken, logout);
+      // setupAxiosInterceptors(logout);
       router.push("/");
     } catch (error) {
       setIsLoading(false);
@@ -74,7 +75,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       }
       setUser(data.user);
       setIsAuthenticated(data.isAuthenticated);
-      setupAxiosInterceptors(data.accessToken, logout);
+      // setupAxiosInterceptors(logout);
     }
   }, []);
   return (

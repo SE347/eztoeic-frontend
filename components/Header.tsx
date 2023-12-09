@@ -7,9 +7,9 @@ import { ThemeModeButton } from "./ThemeModeButton";
 import { useAuth } from "@/contexts/AuthContext";
 import CustomAvatar from "./CustomAvatar";
 const links = [
-  { link: "/about", label: "Course" },
-  { link: "/pricing", label: "Test Online" },
-  { link: "/learn", label: "Flashcards" },
+  { link: "/courses", label: "Course" },
+  { link: "/tests", label: "Test Online" },
+  { link: "/flashcards", label: "Flashcards" },
 ];
 
 export default function Header() {

@@ -39,7 +39,7 @@ export default function MainPage() {
       >
         <SimpleGrid cols={{ base: 1, sm: 3 }}>
           {data.tests.map((test: TestInfo) => (
-            <TestCard test={test} key={test.id} />
+            <TestCard test={test} key={test.id.toString()+"test"} />
           ))}
         </SimpleGrid>
       </div>

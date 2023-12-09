@@ -1,5 +1,6 @@
 "use client";
 import Loading from "@/components/Loading";
+import classes from "@/styles/Tab.module.css";
 import {
   Paper,
   Text,
@@ -11,20 +12,21 @@ import {
   Flex,
   UnstyledButton,
 } from "@mantine/core";
-import axios from "axios";
-import { useParams, useRouter, useSearchParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import useSWR from "swr";
 import { useDisclosure } from "@mantine/hooks";
 import Link from "next/link";
 import { useAuth } from "@/contexts/AuthContext";
-import { Test, TestInfo } from "@/interface/Test";
-interface PartInfo {
+import { TestInfo } from "@/interface/Test";
+import PartSolutionItem from "@/components/PartSolutionItem";
+import { axiosInstance } from "@/services/Axios";
+export interface PartInfo {
   name: string;
   value: string;
   questionCount: number;
 }
-const partInfo: PartInfo[] = [
+export const partInfo: PartInfo[] = [
   {
     name: "Part 1",
     value: "1",
@@ -67,9 +69,10 @@ export default function TestInfoPage() {
   const { isAuthenticated } = useAuth();
   const router = useRouter();
   const [value, setValue] = useState<string[]>([]);
-  const fetcher = async (url: string) => axios.get(url).then((res) => res.data);
+  const fetcher = async (url: string) =>
+    axiosInstance.get(url).then((res) => res.data);
   const { data, error, isLoading } = useSWR<TestInfo>(
-    `https://eztoeic-be.onrender.com/tests/${params.id}/info`,
+    `/tests/${params.id}/info`,
     fetcher
   );
   const [opened, { open, close }] = useDisclosure(false);
@@ -81,10 +84,18 @@ export default function TestInfoPage() {
       style={{ marginBottom: 10 }}
     />
   ));
-  // console.log(query.getAll("part"));
   const handlePractice = () => {
     if (isAuthenticated) {
       const temp = value.map((e) => `part=${e}`);
+      const query = temp.join("&");
+      router.push(`/tests/${params.id}/practice?id=${params.id}&${query}`);
+    } else {
+      open();
+    }
+  };
+  const handleFullTest = () => {
+    if (isAuthenticated) {
+      const temp = ["1", "2", "3", "4", "5", "6", "7"].map((e) => `part=${e}`);
       const query = temp.join("&");
       router.push(`/tests/${params.id}/practice?id=${params.id}&${query}`);
     } else {
@@ -138,6 +149,7 @@ export default function TestInfoPage() {
         defaultValue="info"
         variant="pills"
         radius="xl"
+        classNames={classes}
         style={{ marginTop: 20 }}
       >
         <Tabs.List style={{ marginBottom: 20 }}>
@@ -166,14 +178,33 @@ export default function TestInfoPage() {
               >
                 {itemCheckBox}
               </Checkbox.Group>
-              <Button onClick={handlePractice}>Practice</Button>
+              <Button
+                onClick={value.length > 0 ? handlePractice : handleFullTest}
+              >
+                Practice
+              </Button>
             </Tabs.Panel>
             <Tabs.Panel value="full">
-              <Button onClick={() => console.log(value)}>Start</Button>
+              <Button style={{ marginTop: 20 }} onClick={handleFullTest}>
+                Start
+              </Button>
             </Tabs.Panel>
           </Tabs>
         </Tabs.Panel>
-        <Tabs.Panel value="answer">answer</Tabs.Panel>
+        <Tabs.Panel value="answer">
+          <div style={{ display: "flex", flex: 1, flexDirection: "column" }}>
+            <PartSolutionItem partInfo={null} testId={params.id as string} />
+            <div style={{ height: 20 }} />
+            <Text>Parts:</Text>
+            {partInfo.map((e2) => (
+              <PartSolutionItem
+                partInfo={e2}
+                testId={params.id as string}
+                key={"solution" + e2.name}
+              />
+            ))}
+          </div>
+        </Tabs.Panel>
       </Tabs>
     </Paper>
   );

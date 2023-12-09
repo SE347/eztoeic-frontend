@@ -1,20 +1,12 @@
 "use client";
 import Loading from "@/components/Loading";
 import QuestionItem from "@/components/QuestionItem";
+import { Result } from "@/interface/Result";
 import { Test, TestPart } from "@/interface/Test";
 import { axiosInstance } from "@/services/Axios";
-import {
-  Affix,
-  Button,
-  Paper,
-  Tabs,
-  Text,
-  Transition,
-  rem,
-} from "@mantine/core";
-import { useWindowScroll } from "@mantine/hooks";
-import { IconArrowUp } from "@tabler/icons-react";
-import { useSearchParams } from "next/navigation";
+import { Button, LoadingOverlay, Paper, Tabs, Text } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
+import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import useSWR from "swr";
 
@@ -22,14 +14,17 @@ function PracticePage() {
   const query = useSearchParams();
   const [testParts, setTestParts] = useState<TestPart[]>([]);
   const [currentTestPart, setCurrentTestPart] = useState<string | null>(null);
+  const [visible, { toggle }] = useDisclosure(false);
   const [answersOfUser, setAnswersOfUser] = useState<{}>({});
   const [timer, setTimer] = useState(0);
+  const router = useRouter();
   const fetcher = async (url: string) =>
     axiosInstance.get(url).then((res) => res.data);
   const queryParts = query
     .getAll("part")
     .map((e) => `part=${e}`)
     .join("&");
+  console.log(queryParts);
   const queryId = query.get("id");
   const { data, error, isLoading } = useSWR<Test>(
     `tests/${queryId}/?${queryParts}`,
@@ -45,6 +40,7 @@ function PracticePage() {
     const updatedAnswers = { ...answersOfUser, [index]: answer };
     setAnswersOfUser(updatedAnswers);
   };
+
   useEffect(() => {
     const timeOut = setTimeout(() => {
       setTimer(timer + 1);
@@ -64,10 +60,33 @@ function PracticePage() {
 
     return str;
   };
+  const submitTest = () => {
+    const confirmSubmission = window.confirm(
+      "Are you sure you want to submit your answers?"
+    );
+    if (confirmSubmission) {
+      toggle();
+      let body = {
+        answers: answersOfUser,
+        parts: query.getAll("part").map((e) => Number.parseInt(e)),
+        time: timer.toString(),
+      };
+      axiosInstance.post(`tests/${queryId}/finish`, body).then((res) => {
+        const result: Result = res.data;
+        router.push(`results/${result.id}`);
+      });
+    } else {
+    }
+  };
   if (error) return <div>{error.message}</div>;
   if (isLoading) return <Loading />;
   return (
     <div style={{ marginLeft: 16, marginRight: 16 }}>
+      <LoadingOverlay
+        visible={visible}
+        zIndex={1000}
+        overlayProps={{ radius: "sm", blur: 2 }}
+      />
       <div
         style={{
           alignItems: "center",
@@ -97,17 +116,20 @@ function PracticePage() {
                 {testParts.map((testPart) => (
                   <Tabs.Tab
                     value={testPart.partNumber}
-                    key={testPart.id}
+                    key={testPart.id.toString() + "tab"}
                   >{`Part ${testPart.partNumber}`}</Tabs.Tab>
                 ))}
               </Tabs.List>
               {testParts.map((testPart) => (
-                <Tabs.Panel value={testPart.partNumber} key={testPart.id}>
+                <Tabs.Panel
+                  value={testPart.partNumber}
+                  key={testPart.id.toString() + "part"}
+                >
                   {testPart.questions.map((question) => (
                     <QuestionItem
                       handleAnswerSelection={handleAnswerSelection}
                       question={question}
-                      key={question.id}
+                      key={question.id.toString() + "question"}
                       selectAnswerCount={testPart.selectAnswerCount}
                     />
                   ))}
@@ -129,7 +151,9 @@ function PracticePage() {
             <Text size="lg" fw={"bold"}>
               {formatTime()}
             </Text>
-            <Button fullWidth>Submit</Button>
+            <Button fullWidth onClick={submitTest}>
+              Submit
+            </Button>
           </Paper>
         </div>
       </div>
