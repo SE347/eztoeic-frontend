@@ -6,9 +6,10 @@ import { Test, TestPart } from "@/interface/Test";
 import { axiosInstance } from "@/services/Axios";
 import { Button, LoadingOverlay, Paper, Tabs, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams, useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import useSWR from "swr";
+import classes from"@/styles/Tab.module.css";
 
 function PracticePage() {
   const query = useSearchParams();
@@ -30,6 +31,9 @@ function PracticePage() {
     `tests/${queryId}/?${queryParts}`,
     fetcher,
     {
+      revalidateIfStale: false,
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false,
       onSuccess: (data) => {
         setCurrentTestPart(data.testParts[0].partNumber);
         setTestParts([...data.testParts]);
@@ -111,6 +115,7 @@ function PracticePage() {
               radius="xl"
               value={currentTestPart}
               onChange={setCurrentTestPart}
+              classNames={classes}
             >
               <Tabs.List>
                 {testParts.map((testPart) => (

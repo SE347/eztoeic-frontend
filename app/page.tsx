@@ -4,15 +4,14 @@ import Loading from "@/components/Loading";
 import TestCard from "@/components/TestCard";
 import { Test, TestInfo } from "@/interface/Test";
 import { axiosInstance } from "@/services/Axios";
-import { Loader, SimpleGrid } from "@mantine/core";
-import axios from "axios";
+import { SimpleGrid } from "@mantine/core";
 import useSWR from "swr";
 
 export default function MainPage() {
   const fetcher = async (url: string) =>
-    axiosInstance.get("/tests?page=1&search=ets").then((res) => res.data);
+    axiosInstance.get(url).then((res) => res.data);
   const { data, error, isLoading } = useSWR(
-    `https://eztoeic-be.onrender.com/tests?page=1&search=ets`,
+    `/tests`,
     fetcher
   );
 

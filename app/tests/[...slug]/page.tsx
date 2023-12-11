@@ -9,7 +9,7 @@ import {
 } from "@tabler/icons-react";
 import { Box, Card, Flex, Paper, SimpleGrid, Text } from "@mantine/core";
 import { useParams } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import useSWR from "swr";
 import ResultItem from "@/components/ResultItem";
 
@@ -31,6 +31,20 @@ function ResultPage() {
       },
     }
   );
+
+  const formatTime = (timer:number) => {
+    const minutes = Math.floor((timer % 3600) / 60).toString();
+    const seconds = (timer % 60).toString();
+    return `${padStart(minutes, 2, "0")}:${padStart(seconds, 2, "0")}`;
+  };
+  const padStart = (str: string, len: number, char: string) => {
+    while (str.length < len) {
+      str = `${char}${str}`;
+    }
+
+    return str;
+  };
+
   const questionsCount =
     result?.correctCount! + result?.undoneCount! + result?.wrongCount!;
   if (error) return <div>{error.message}</div>;
@@ -74,20 +88,20 @@ function ResultPage() {
           }}
         >
           <Flex align={"center"} direction={"row"} gap={"sm"}>
-            <Text>Kết quả làm bài</Text>
+            <Text>Test results</Text>
             <Text fw={600}>
               {result?.correctCount}/{questionsCount}
             </Text>
           </Flex>
           <Flex align={"center"} direction={"row"} gap={"sm"}>
-            <Text>Độ chính xác</Text>
+            <Text>Accuracy</Text>
             <Text fw={600}>
               {(result?.correctCount! / questionsCount).toFixed(2)}%
             </Text>
           </Flex>
           <Flex align={"center"} direction={"row"} gap={"sm"}>
-            <Text>Thời gian làm bài</Text>
-            <Text fw={600}>{result?.time}</Text>
+            <Text>Time to do test</Text>
+            <Text fw={600}>{formatTime(Number.parseInt(result?.time!))}</Text>
           </Flex>
         </Paper>
         <Card

@@ -9,7 +9,7 @@ import useSWR from "swr";
 
 export default function TestsPage() {
   const [tests, setTests] = useState<TestInfo[]>([]);
-  const [searchText, setSearchText] = useState<string>("ets");
+  const [searchText, setSearchText] = useState<string>("");
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [pageCount, setPageCount] = useState<number>(1);
   const [activePage, setPage] = useState(1);
@@ -18,12 +18,12 @@ export default function TestsPage() {
     return res.data;
   };
   const { data, error, isLoading } = useSWR(
-    `/tests?page=${pageCount}&search=${searchText}`,
+    `/tests?page=${activePage}&search=${searchText}`,
     fetcher,
     {
       onSuccess: (data) => {
         setTests(data.tests);
-        setPage(data.pageCount);
+        setPageCount(data.pageCount);
       },
     }
   );
@@ -46,6 +46,7 @@ export default function TestsPage() {
       <Button
         style={{ width: 100, marginTop: 15, marginBottom: 15 }}
         onClick={() => {
+          setPage(1);
           setSearchText(searchTerm);
         }}
       >
