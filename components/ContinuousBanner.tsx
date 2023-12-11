@@ -16,37 +16,13 @@ function ContinuousBanner() {
       onMouseLeave={autoplay.current.reset}
     >
       <Carousel.Slide>
-        <Image
-          radius="md"
-          h={300}
-          fit="cover"
-          alt=""
-          src={
-            "https://images.unsplash.com/photo-1696928634052-41aa345ef686?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
-          }
-        />
+        <Image radius="md" h={300} fit="cover" alt="" src={"/banner.jpg"} />
       </Carousel.Slide>
       <Carousel.Slide>
-        <Image
-          radius="md"
-          h={300}
-          alt=""
-          fit="cover"
-          src={
-            "https://images.unsplash.com/photo-1696928634052-41aa345ef686?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
-          }
-        />
+        <Image radius="md" h={300} alt="" fit="cover" src={"/banner.jpg"} />
       </Carousel.Slide>
       <Carousel.Slide>
-        <Image
-          radius="md"
-          alt=""
-          h={300}
-          fit="cover"
-          src={
-            "https://images.unsplash.com/photo-1696928634052-41aa345ef686?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
-          }
-        />
+        <Image radius="md" alt="" h={300} fit="cover" src={"/banner.jpg"} />
       </Carousel.Slide>
     </Carousel>
   );
