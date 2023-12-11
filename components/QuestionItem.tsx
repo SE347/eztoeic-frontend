@@ -29,7 +29,7 @@ function QuestionItem({
         <Image
           src={question.imageUrl}
           alt=""
-          w="20%"
+          w="60%"
           fit="cover"
           style={{ marginTop: 15, marginBottom: 15 }}
         />
