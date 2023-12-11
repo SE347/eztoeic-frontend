@@ -31,7 +31,7 @@
 
 export interface ResultDetail {
   questionId: number;
-  resultdetailid: number;
+  resultDetailId: number;
   answerByUser: string | null;
   isCorrect: boolean;
   question: string;
@@ -43,6 +43,7 @@ export interface ResultDetail {
   C: string | null;
   D: string | null;
   partNumber: string;
+  questionIndex: number;
   questionCount: number;
 }
 

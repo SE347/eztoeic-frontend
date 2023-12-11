@@ -9,7 +9,7 @@ import { useDisclosure } from "@mantine/hooks";
 import { useRouter, useSearchParams, useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import useSWR from "swr";
-import classes from"@/styles/Tab.module.css";
+import classes from "@/styles/Tab.module.css";
 
 function PracticePage() {
   const query = useSearchParams();
@@ -77,7 +77,7 @@ function PracticePage() {
       };
       axiosInstance.post(`tests/${queryId}/finish`, body).then((res) => {
         const result: Result = res.data;
-        router.push(`results/${result.id}`);
+        router.replace(`results/${result.id}`);
       });
     } else {
     }

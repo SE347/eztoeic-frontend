@@ -28,11 +28,12 @@ function ResultPage() {
     {
       onSuccess: (data) => {
         setResult(data);
+        console.log(data);
       },
     }
   );
 
-  const formatTime = (timer:number) => {
+  const formatTime = (timer: number) => {
     const minutes = Math.floor((timer % 3600) / 60).toString();
     const seconds = (timer % 60).toString();
     return `${padStart(minutes, 2, "0")}:${padStart(seconds, 2, "0")}`;
@@ -168,7 +169,7 @@ function ResultPage() {
             {e.questions.map((e1) => (
               <ResultItem
                 resultDetail={e1}
-                key={"result1" + e1.resultdetailid}
+                key={"result1" + e1.resultDetailId}
               />
             ))}
           </SimpleGrid>

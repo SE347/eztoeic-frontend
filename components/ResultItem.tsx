@@ -19,9 +19,9 @@ const ResultItem = ({ resultDetail }: { resultDetail: ResultDetail }) => {
         }}
         bg={"#ffad3b"}
       >
-        <Text>{resultDetail.questionId}</Text>
+        <Text>{resultDetail.questionIndex}</Text>
       </Box>
-      <Text style={{marginRight:4}}>{resultDetail.answer}:</Text>
+      <Text style={{ marginRight: 4 }}>{resultDetail.answer}:</Text>
       <RenderAnswer resultDetail={resultDetail} />
       <Box style={{ width: 6 }} />
       <UnstyledButton
