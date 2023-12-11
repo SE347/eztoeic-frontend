@@ -14,7 +14,7 @@ function ResultDetailItem({ resultDetail }: { resultDetail: ResultDetail }) {
   return (
     <div style={{ display: "flex", flexDirection: "column", flex: 1 }}>
       {resultDetail.imageUrl != null ? (
-        <Image src={resultDetail.imageUrl} alt="" w="20%" fit="cover" />
+        <Image src={resultDetail.imageUrl} alt="" w="80%" fit="cover" />
       ) : (
         <></>
       )}
