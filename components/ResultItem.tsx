@@ -21,7 +21,7 @@ const ResultItem = ({ resultDetail }: { resultDetail: ResultDetail }) => {
       >
         <Text>{resultDetail.questionId}</Text>
       </Box>
-      <Text>{resultDetail.answer}:</Text>
+      <Text style={{marginRight:4}}>{resultDetail.answer}:</Text>
       <RenderAnswer resultDetail={resultDetail} />
       <Box style={{ width: 6 }} />
       <UnstyledButton
@@ -52,6 +52,6 @@ const RenderAnswer = ({ resultDetail }: { resultDetail: ResultDetail }) => {
       return <Text>{resultDetail.answerByUser}</Text>;
     else return <Text td="line-through">{resultDetail.answerByUser}</Text>;
   } else {
-    return <Text> not answered</Text>;
+    return <Text>Not answered</Text>;
   }
 };
