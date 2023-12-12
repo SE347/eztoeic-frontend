@@ -1,7 +1,8 @@
 "use client";
 import CourseItem from "@/components/CourseItem";
+import LessonItem from "@/components/LessonItem";
 import Loading from "@/components/Loading";
-import { Course } from "@/interface/Course";
+import { Lesson } from "@/interface/Course";
 import { axiosInstance } from "@/services/Axios";
 import {
   Button,
@@ -11,12 +12,13 @@ import {
   Image,
   Text,
 } from "@mantine/core";
+import { useParams } from "next/navigation";
 import { useState } from "react";
 import useSWR from "swr";
 
-export default function CoursesPage() {
-  const [courses, setCourses] = useState<Course[]>([]);
-  const [searchText, setSearchText] = useState<string>("");
+export default function LessonsPage() {
+  const [lessons, setLessons] = useState<Lesson[]>([]);
+  const params = useParams();
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [pageCount, setPageCount] = useState<number>(1);
   const [activePage, setPage] = useState(1);
@@ -24,16 +26,12 @@ export default function CoursesPage() {
     let res = await axiosInstance.get(url);
     return res.data;
   };
-  const { data, error, isLoading } = useSWR(
-    `playlists?page=${activePage}&search=${searchText}`,
-    fetcher,
-    {
-      onSuccess: (data) => {
-        setCourses(data.playlists);
-        setPageCount(data.pageCount);
-      },
-    }
-  );
+  const { data, error, isLoading } = useSWR(`playlists/${params.id}`, fetcher, {
+    onSuccess: (data) => {
+      setLessons(data.lessons);
+      setPageCount(data.pageCount);
+    },
+  });
   if (error) return <div>{error.message}</div>;
   if (isLoading) return <Loading />;
   return (
@@ -55,23 +53,9 @@ export default function CoursesPage() {
         universities (UK) with a rich and diverse system of lectures and
         exercises. You can take a free trial lesson before ordering the product.
       </Text>
-      <TextInput
-        placeholder="Enter search courses..."
-        value={searchTerm}
-        onChange={(event) => setSearchTerm(event.currentTarget.value)}
-      />
-      <Button
-        style={{ width: 100, marginTop: 15, marginBottom: 15 }}
-        onClick={() => {
-          setPage(1);
-          setSearchText(searchTerm);
-        }}
-      >
-        Search
-      </Button>
       <SimpleGrid cols={{ base: 1, sm: 3 }}>
-        {courses.map((course: Course) => (
-          <CourseItem course={course} key={course.id.toString() + "course"} />
+        {lessons.map((lesson: Lesson) => (
+          <LessonItem lesson={lesson} key={lesson.id.toString() + "lesson"} />
         ))}
       </SimpleGrid>
       <div style={{ alignSelf: "flex-start", marginTop: 20 }}>
