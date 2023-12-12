@@ -15,25 +15,20 @@ export const axiosInstance = axios.create({
   },
 });
 
-
-
-axiosInstance.interceptors.request.use(
-  (config: InternalAxiosRequestConfig) => {
-    const accessToken = localStorage.getItem('accessToken');
-    if (accessToken!=null) {
-      config.headers.Authorization = `Bearer ${accessToken}`;
-    }
-    return config;
+axiosInstance.interceptors.request.use((config: InternalAxiosRequestConfig) => {
+  const accessToken = localStorage.getItem("accessToken");
+  if (accessToken != null) {
+    config.headers.Authorization = `Bearer ${accessToken}`;
   }
-);
+  return config;
+});
 axiosInstance.interceptors.response.use(
-  
   (res: AxiosResponse) => {
     return res;
   },
   (error: AxiosError) => {
     const statusCode = error.response?.status;
-    const {logout} =useAuth();
+    const { logout } = useAuth();
     switch (statusCode) {
       case 401: {
         logout();

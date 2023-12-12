@@ -8,7 +8,7 @@ import { Button, LoadingOverlay, Paper, Tabs, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { useRouter, useSearchParams, useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import useSWR from "swr";
+import useSWR, { mutate } from "swr";
 import classes from "@/styles/Tab.module.css";
 
 function PracticePage() {
@@ -40,10 +40,15 @@ function PracticePage() {
       },
     }
   );
+  console.log(data);
   const handleAnswerSelection = (index: string, answer: string) => {
     const updatedAnswers = { ...answersOfUser, [index]: answer };
     setAnswersOfUser(updatedAnswers);
   };
+
+  useEffect(() => {
+    mutate(`tests/${queryId}/?${queryParts}`);
+  }, []);
 
   useEffect(() => {
     const timeOut = setTimeout(() => {
@@ -77,7 +82,7 @@ function PracticePage() {
       };
       axiosInstance.post(`tests/${queryId}/finish`, body).then((res) => {
         const result: Result = res.data;
-        router.replace(`results/${result.id}`);
+        router.push(`results/${result.id}`);
       });
     } else {
     }

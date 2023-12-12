@@ -28,7 +28,6 @@ function ResultPage() {
     {
       onSuccess: (data) => {
         setResult(data);
-        console.log(data);
       },
     }
   );
