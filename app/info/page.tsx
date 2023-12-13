@@ -12,11 +12,14 @@ import {
   Paper,
   Button,
   PasswordInput,
+  Grid
 } from "@mantine/core";
 import { DatePickerInput } from "@mantine/dates";
 import { useForm, isNotEmpty, isEmail, matches } from "@mantine/form";
 import Link from "next/link";
 import { useState, useEffect } from "react";
+import { IconPencil } from '@tabler/icons-react';
+import moment from 'moment';
 
 function RegisterPage() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -67,6 +70,11 @@ function RegisterPage() {
 
   const [userId, setUserId] = useState(null)
 
+  const [fullnameEditable, setFullnameEditable] = useState(false)
+  const [phoneEditable, setPhoneEditable] = useState(false)
+  const [birthEditable, setBirthEditable] = useState(false)
+  const [emailEditable, setEmailEditable] = useState(false)
+
   if (typeof window !== 'undefined') {
     const getUserInfo = () => {
       const ds = localStorage.getItem("dataStorage")
@@ -78,11 +86,11 @@ function RegisterPage() {
     }
 
     useEffect(() => {
-      setEmail(getUserInfo()["user"]["name"])
+      setEmail(getUserInfo()["user"]["email"])
       setPhone(getUserInfo()["user"]["phone"])
       setBirth(new Date(getUserInfo()["user"]["dateOfBirth"]))
 
-      setFullName(getUserInfo()["user"]["email"])
+      setFullName(getUserInfo()["user"]["name"])
 
       setUserId(getUserInfo()["user"]["id"])
     }, [])
@@ -113,33 +121,62 @@ function RegisterPage() {
         </Title>
 
         <Paper withBorder shadow="md" p={30} mt={30} radius="md">
-          <TextInput
-            label="Full Name"
-            placeholder="Your full name"
-            value={fullname}
-            onChange={(event) => setFullName(event.currentTarget.value)}
-          //{...registerForm.getInputProps("fullName")}
-          />
-          <TextInput
-            label="Phone"
-            placeholder="Your phone"
-            value={phone}
-            onChange={(event) => setPhone(event.currentTarget.value)}
-          //{...registerForm.getInputProps("phone")}
-          />
-          <DatePickerInput
-            label="Date Of Birth"
-            placeholder="Pick date"
-            value={birth}
-          //{...registerForm.getInputProps("dateOfBirth")}
-          />
-          <TextInput
-            label="Email"
-            placeholder="example@gmail.com"
-            value={email}
-            onChange={(event) => setEmail(event.currentTarget.value)}
-          //{...registerForm.getInputProps("email")}
-          />
+          <Title order={6}>Full Name</Title>
+          {fullnameEditable ?
+            <TextInput
+              placeholder="Your full name"
+              value={fullname}
+              onChange={(event) => setFullName(event.currentTarget.value)}
+            //{...registerForm.getInputProps("fullName")}
+            />
+            :
+            <Grid>
+              <Grid.Col span={11}>{fullname}</Grid.Col>
+              <Grid.Col span={1}><IconPencil style={{ cursor: "pointer" }} size={15} onClick={() => setFullnameEditable(true)} /></Grid.Col>
+            </Grid>}
+
+          <Title order={6}>Phone</Title>
+          {phoneEditable ?
+            <TextInput
+              placeholder="Your phone"
+              value={phone}
+              onChange={(event) => setPhone(event.currentTarget.value)}
+            //{...registerForm.getInputProps("phone")}
+            />
+            :
+            <Grid>
+              <Grid.Col span={11}>{phone}</Grid.Col>
+              <Grid.Col span={1}><IconPencil style={{ cursor: "pointer" }} size={15} onClick={() => setPhoneEditable(true)} /></Grid.Col>
+            </Grid>}
+
+          <Title order={6}>Date of Birth</Title>
+          {birthEditable ?
+            <DatePickerInput
+              placeholder="Pick date"
+              value={birth}
+            //{...registerForm.getInputProps("dateOfBirth")}
+            />
+            :
+            <Grid>
+              <Grid.Col span={11}>{moment(birth).format("MMMM D, YYYY")}</Grid.Col>
+              <Grid.Col span={1}><IconPencil style={{ cursor: "pointer" }} size={15} onClick={() => setBirthEditable(true)} /></Grid.Col>
+            </Grid>}
+
+          <Title order={6}>Email</Title>
+          {emailEditable ?
+            <TextInput
+              placeholder="example@gmail.com"
+              value={email}
+              onChange={(event) => setEmail(event.currentTarget.value)}
+            //{...registerForm.getInputProps("phone")}
+            />
+            :
+            <Grid>
+              <Grid.Col span={11}>{email}</Grid.Col>
+              <Grid.Col span={1}><IconPencil style={{ cursor: "pointer" }} size={15} onClick={() => setEmailEditable(true)} /></Grid.Col>
+            </Grid>}
+
+
           <Button fullWidth mt="xl" type="submit" loading={isLoading} onClick={updateUserInfo}>
             Update your account
           </Button>
