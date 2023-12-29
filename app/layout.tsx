@@ -11,7 +11,6 @@ import Footer from "@/components/Footer";
 import { theme } from "@/theme";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { Notifications } from "@mantine/notifications";
-import { SWRConfig } from "swr";
 // export const metadata = {
 //   title: "EZTOEIC",
 //   description: "I code it",

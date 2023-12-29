@@ -1,6 +1,5 @@
 "use client";
 import { MAIN_URL } from "@/constants/AppConstants";
-import { useAuth } from "@/contexts/AuthContext";
 
 import axios, {
   AxiosError,
@@ -28,10 +27,8 @@ axiosInstance.interceptors.response.use(
   },
   (error: AxiosError) => {
     const statusCode = error.response?.status;
-    const { logout } = useAuth();
     switch (statusCode) {
       case 401: {
-        logout();
         break;
       }
       default:
