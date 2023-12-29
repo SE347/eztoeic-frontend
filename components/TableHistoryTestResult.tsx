@@ -22,7 +22,7 @@ const TableHistoryTestResult = ({
         </Table.Thead>
         <Table.Tbody>
           {historicalTestResults.map((e) => (
-            <TableItem historicalTestResult={e} />
+            <TableItem historicalTestResult={e} key={"part-table" + e.id} />
           ))}
         </Table.Tbody>
       </Table>

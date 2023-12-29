@@ -48,7 +48,7 @@ function RegisterPage() {
 
   const [userId, setUserId] = useState(null);
 
-  if (typeof window !== "undefined") {
+  useEffect(() => {
     const getUserInfo = () => {
       const ds = localStorage.getItem("dataStorage");
 
@@ -56,15 +56,12 @@ function RegisterPage() {
 
       return JSON.parse(ds);
     };
-
-    useEffect(() => {
-      setEmail(getUserInfo()["user"]["email"]);
-      setPhone(getUserInfo()["user"]["phone"]);
-      setBirth(new Date(getUserInfo()["user"]["dateOfBirth"]));
-      setFullName(getUserInfo()["user"]["name"]);
-      setUserId(getUserInfo()["user"]["id"]);
-    }, []);
-  }
+    setEmail(getUserInfo()["user"]["email"]);
+    setPhone(getUserInfo()["user"]["phone"]);
+    setBirth(new Date(getUserInfo()["user"]["dateOfBirth"]));
+    setFullName(getUserInfo()["user"]["name"]);
+    setUserId(getUserInfo()["user"]["id"]);
+  }, []);
 
   const updateUserInfo = async () => {
     setIsLoading(true);

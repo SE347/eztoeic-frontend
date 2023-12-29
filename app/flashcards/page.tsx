@@ -33,7 +33,11 @@ export default function FlashCardsPage() {
         paddingRight: "15vw",
       }}
     >
-      <Image src={"/banner.jpg"} style={{ marginTop: 20, marginBottom: 10 }} />
+      <Image
+        src={"/banner.jpg"}
+        style={{ marginTop: 20, marginBottom: 10 }}
+        alt="image"
+      />
       <Text style={{ fontSize: 28 }} fw={700}>
         Flashcards
       </Text>

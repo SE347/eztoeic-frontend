@@ -59,11 +59,14 @@ export default function HistoryPage() {
         </Text>
       </div>
       {historicalTestResults.map((e) => (
-        <div>
+        <div key={"table-history" + e.testId}>
           <Text fw={"bold"} style={{ fontSize: 18, marginTop: 20 }}>
             {e.title}
           </Text>
-          <TableHistoryTestResult historicalTestResults={e.values} />
+          <TableHistoryTestResult
+            historicalTestResults={e.values}
+            key={"key-history" + e.testId}
+          />
         </div>
       ))}
     </div>

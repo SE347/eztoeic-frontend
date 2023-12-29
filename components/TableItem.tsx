@@ -48,7 +48,12 @@ const TableItem = ({
           {formatUTCStringToDate(historicalTestResult.createdAt)}
           <div>
             {historicalTestResult.resultParts.map((part) => (
-              <Badge color="yellow" radius="sm" mr="xs">
+              <Badge
+                color="yellow"
+                radius="sm"
+                mr="xs"
+                key={"part-table-item1" + part.id}
+              >
                 Part {part.partNumber}
               </Badge>
             ))}

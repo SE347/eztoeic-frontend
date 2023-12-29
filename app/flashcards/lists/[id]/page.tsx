@@ -68,7 +68,11 @@ export default function ListVocabsPage() {
           setOpen2(false);
         }}
       />
-      <Image src={"/banner.jpg"} style={{ marginTop: 20, marginBottom: 10 }} />
+      <Image
+        src={"/banner.jpg"}
+        style={{ marginTop: 20, marginBottom: 10 }}
+        alt="image"
+      />
       <div
         style={{
           display: "flex",
