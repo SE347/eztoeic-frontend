@@ -19,6 +19,7 @@ type AuthContextData = {
   logout: () => void;
   isAuthenticated: boolean;
   isLoading: boolean;
+  setUser: React.Dispatch<React.SetStateAction<User | null>>;
 };
 
 export interface DataStorage {
@@ -48,7 +49,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         isAuthenticated: true,
         accessToken: accessToken,
       };
-      localStorage.setItem("accessToken",accessToken);
+      localStorage.setItem("accessToken", accessToken);
       localStorage.setItem("dataStorage", JSON.stringify(dataStorage));
       setUser(user);
       setIsAuthenticated(true);
@@ -80,7 +81,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   }, []);
   return (
     <AuthContext.Provider
-      value={{ user, isAuthenticated, isLoading, login, logout }}
+      value={{ user, isAuthenticated, isLoading, login, logout, setUser }}
     >
       {children}
     </AuthContext.Provider>

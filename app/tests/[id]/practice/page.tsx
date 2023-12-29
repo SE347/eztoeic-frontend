@@ -40,7 +40,7 @@ function PracticePage() {
       },
     }
   );
-  console.log(data);
+
   const handleAnswerSelection = (index: string, answer: string) => {
     const updatedAnswers = { ...answersOfUser, [index]: answer };
     setAnswersOfUser(updatedAnswers);

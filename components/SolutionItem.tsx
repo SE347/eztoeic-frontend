@@ -33,7 +33,10 @@ function SolutionItem({
   return (
     <div>
       {solution?.map((e) => (
-        <div style={{ display: "flex", flexDirection: "row" }}>
+        <div
+          style={{ display: "flex", flexDirection: "row" }}
+          key={"solution-item" + e.index}
+        >
           <Text>Question {e.index}: </Text>
           <Text style={{ marginLeft: 4 }}>{e.answer}</Text>
         </div>

@@ -66,7 +66,7 @@ export default function Footer() {
         <div className={classes.logo}>
           <Text>EZTOEIC</Text>
           <Text size="xs" c="dimmed" className={classes.description}>
-            Build fully functional accessible web applications faster than ever
+            Unlock Your Potential: Master English, Embrace Success!
           </Text>
         </div>
         <div className={classes.groups}>{groups}</div>

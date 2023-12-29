@@ -45,15 +45,19 @@ export default function CoursesPage() {
         paddingRight: "15vw",
       }}
     >
-      <Image src={"/banner.jpg"} style={{ marginTop: 20, marginBottom: 10 }} />
+      <Image
+        src={"/banner.jpg"}
+        style={{ marginTop: 20, marginBottom: 10 }}
+        alt="image"
+      />
       <Text style={{ fontSize: 28 }} fw={700}>
         Online course
       </Text>
-      <Text style={{ marginBottom: 20 }}>
-        STUDY4's high-quality online English courses are designed according to
-        the CEFR standard English program (A1-C2) of Cambridge and Oxford
-        universities (UK) with a rich and diverse system of lectures and
-        exercises. You can take a free trial lesson before ordering the product.
+      <Text style={{ marginBottom: 20 }} fs="italic">
+        Eztoeic high-quality online English courses are designed according to
+        the CEFR standard English program of Cambridge and Oxford universities
+        with a rich and diverse system of lectures and exercises. You can take a
+        free trial lesson before ordering the product.
       </Text>
       <TextInput
         placeholder="Enter search courses..."
