@@ -1,12 +1,9 @@
 "use client";
 import Loading from "@/components/Loading";
-import QuestionItem from "@/components/QuestionItem";
-import { Result } from "@/interface/Result";
 import { Test, TestPart } from "@/interface/Test";
 import { axiosInstance } from "@/services/Axios";
-import { Button, LoadingOverlay, Paper, Tabs, Text } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
-import { useRouter, useSearchParams, useParams } from "next/navigation";
+import { Paper, Tabs, Text } from "@mantine/core";
+import { useSearchParams, useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import useSWR from "swr";
 import classes from"@/styles/Tab.module.css";
@@ -17,8 +14,6 @@ function SolutionPage() {
   const params = useParams();
   const [testParts, setTestParts] = useState<TestPart[]>([]);
   const [currentTestPart, setCurrentTestPart] = useState<string | null>(null);
-  const [answersOfUser, setAnswersOfUser] = useState<{}>({});
-  const router = useRouter();
   const fetcher = async (url: string) =>
     axiosInstance.get(url).then((res) => res.data);
   const queryParts = query

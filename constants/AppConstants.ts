@@ -1,4 +1,4 @@
-export const MAIN_URL = " http://157.230.0.60";
+export const MAIN_URL = "http://172.191.160.50";
 export const LOGIN_URL = `/auth/login`;
 export const REGISTER_URL = `/auth/register`;
 export const GET_TEST_URL = `/tests`;

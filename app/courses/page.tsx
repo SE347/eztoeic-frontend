@@ -49,7 +49,7 @@ export default function CoursesPage() {
       <Text style={{ fontSize: 28 }} fw={700}>
         Online course
       </Text>
-      <Text style={{ marginBottom: 20 }}>
+      <Text style={{ marginBottom: 20 }} fs="italic">
         STUDY4's high-quality online English courses are designed according to
         the CEFR standard English program (A1-C2) of Cambridge and Oxford
         universities (UK) with a rich and diverse system of lectures and

@@ -3,7 +3,13 @@ import Loading from "@/components/Loading";
 import TestCard from "@/components/TestCard";
 import { TestInfo } from "@/interface/Test";
 import { axiosInstance } from "@/services/Axios";
-import { Button, Pagination, SimpleGrid, TextInput } from "@mantine/core";
+import {
+  Button,
+  Pagination,
+  SimpleGrid,
+  TextInput,
+  Image,
+} from "@mantine/core";
 import { useState } from "react";
 import useSWR from "swr";
 
@@ -38,6 +44,7 @@ export default function TestsPage() {
         paddingRight: "15vw",
       }}
     >
+      <Image src={"/banner.jpg"} style={{ marginTop: 20, marginBottom: 10 }} />
       <TextInput
         placeholder="Enter search tests..."
         value={searchTerm}
