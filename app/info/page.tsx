@@ -60,44 +60,45 @@ function RegisterPage() {
     }
   };
 
-  const [fullname, setFullName] = useState('')
-  const [email, setEmail] = useState('')
-  const [phone, setPhone] = useState('')
-  const [birth, setBirth] = useState(new Date(0))
+  const [fullname, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [birth, setBirth] = useState(new Date(0));
 
-  const [userId, setUserId] = useState(null)
+  const [userId, setUserId] = useState(null);
 
-  if (typeof window !== 'undefined') {
+  if (typeof window !== "undefined") {
     const getUserInfo = () => {
-      const ds = localStorage.getItem("dataStorage")
+      const ds = localStorage.getItem("dataStorage");
 
-      if (ds == null)
-        return null
+      if (ds == null) return null;
 
-      return JSON.parse(ds)
-    }
+      return JSON.parse(ds);
+    };
 
     useEffect(() => {
-      setEmail(getUserInfo()["user"]["name"])
-      setPhone(getUserInfo()["user"]["phone"])
-      setBirth(new Date(getUserInfo()["user"]["dateOfBirth"]))
+      setEmail(getUserInfo()["user"]["name"]);
+      setPhone(getUserInfo()["user"]["phone"]);
+      setBirth(new Date(getUserInfo()["user"]["dateOfBirth"]));
 
-      setFullName(getUserInfo()["user"]["email"])
+      setFullName(getUserInfo()["user"]["email"]);
 
-      setUserId(getUserInfo()["user"]["id"])
-    }, [])
+      setUserId(getUserInfo()["user"]["id"]);
+    }, []);
   }
 
   const updateUserInfo = () => {
     setIsLoading(true);
-    axiosInstance.put("/user/profiles/" + userId, {
-      "name": fullname,
-      "dob": birth,
-      "phone": phone
-    }).then((res) => {
-      setIsLoading(false);
-    })
-  }
+    axiosInstance
+      .put("/user/profiles/" + userId, {
+        name: fullname,
+        dob: birth,
+        phone: phone,
+      })
+      .then((res) => {
+        setIsLoading(false);
+      });
+  };
 
   return (
     <Container size={420} my={40}>
@@ -118,29 +119,35 @@ function RegisterPage() {
             placeholder="Your full name"
             value={fullname}
             onChange={(event) => setFullName(event.currentTarget.value)}
-          //{...registerForm.getInputProps("fullName")}
+            //{...registerForm.getInputProps("fullName")}
           />
           <TextInput
             label="Phone"
             placeholder="Your phone"
             value={phone}
             onChange={(event) => setPhone(event.currentTarget.value)}
-          //{...registerForm.getInputProps("phone")}
+            //{...registerForm.getInputProps("phone")}
           />
           <DatePickerInput
             label="Date Of Birth"
             placeholder="Pick date"
             value={birth}
-          //{...registerForm.getInputProps("dateOfBirth")}
+            //{...registerForm.getInputProps("dateOfBirth")}
           />
           <TextInput
             label="Email"
             placeholder="example@gmail.com"
             value={email}
             onChange={(event) => setEmail(event.currentTarget.value)}
-          //{...registerForm.getInputProps("email")}
+            //{...registerForm.getInputProps("email")}
           />
-          <Button fullWidth mt="xl" type="submit" loading={isLoading} onClick={updateUserInfo}>
+          <Button
+            fullWidth
+            mt="xl"
+            type="submit"
+            loading={isLoading}
+            onClick={updateUserInfo}
+          >
             Update your account
           </Button>
         </Paper>
