@@ -1,17 +1,9 @@
 "use client";
-import CourseItem from "@/components/CourseItem";
 import LessonItem from "@/components/LessonItem";
 import Loading from "@/components/Loading";
 import { Lesson } from "@/interface/Course";
 import { axiosInstance } from "@/services/Axios";
-import {
-  Button,
-  Pagination,
-  SimpleGrid,
-  TextInput,
-  Image,
-  Text,
-} from "@mantine/core";
+import { Pagination, SimpleGrid, Image, Text } from "@mantine/core";
 import { useParams } from "next/navigation";
 import { useState } from "react";
 import useSWR from "swr";
