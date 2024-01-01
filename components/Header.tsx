@@ -6,15 +6,19 @@ import { useRouter } from "next/navigation";
 import { ThemeModeButton } from "./ThemeModeButton";
 import { useAuth } from "@/contexts/AuthContext";
 import CustomAvatar from "./CustomAvatar";
-const links = [
-  { link: "/courses", label: "Course" },
-  { link: "/tests", label: "Test Online" },
-  { link: "/flashcards", label: "Flashcards" },
-];
 
 export default function Header() {
   const { isAuthenticated, user } = useAuth();
   const router = useRouter();
+
+  const links1 = [{ link: "/tests", label: "Test Online" }];
+  const links2 = [
+    { link: "/courses", label: "Course" },
+    { link: "/tests", label: "Test Online" },
+    { link: "/flashcards", label: "Flashcards" },
+  ];
+
+  let links = isAuthenticated ? links2 : links1;
 
   const items = links.map((link) => (
     <Link key={link.label} href={link.link} className={classes.link}>
