@@ -13,6 +13,7 @@ import classes from "@/styles/Tab.module.css";
 
 function PracticePage() {
   const query = useSearchParams();
+  const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
   const [testParts, setTestParts] = useState<TestPart[]>([]);
   const [currentTestPart, setCurrentTestPart] = useState<string | null>(null);
   const [visible, { toggle }] = useDisclosure(false);
@@ -25,7 +26,6 @@ function PracticePage() {
     .getAll("part")
     .map((e) => `part=${e}`)
     .join("&");
-  console.log(queryParts);
   const queryId = query.get("id");
   const { data, error, isLoading } = useSWR<Test>(
     `tests/${queryId}/?${queryParts}`,
@@ -51,10 +51,18 @@ function PracticePage() {
   }, []);
 
   useEffect(() => {
-    const timeOut = setTimeout(() => {
-      setTimer(timer + 1);
-      return () => clearTimeout(timeOut);
+    const timerId = setTimeout(() => {
+      setTimer((prevTimer) => prevTimer + 1);
     }, 1000);
+
+    setTimeoutId(timerId); // Lưu ID của timeout
+
+    return () => {
+      // Xóa timeout khi component unmount hoặc khi người dùng hoàn thành bài kiểm tra
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+    };
   }, [timer]);
 
   const formatTime = () => {
@@ -74,6 +82,9 @@ function PracticePage() {
       "Are you sure you want to submit your answers?"
     );
     if (confirmSubmission) {
+      if (timeoutId) {
+        clearTimeout(timeoutId); // Xóa timeout khi người dùng hoàn thành bài kiểm tra
+      }
       toggle();
       let body = {
         answers: answersOfUser,
@@ -91,11 +102,6 @@ function PracticePage() {
   if (isLoading) return <Loading />;
   return (
     <div style={{ marginLeft: 16, marginRight: 16 }}>
-      <LoadingOverlay
-        visible={visible}
-        zIndex={1000}
-        overlayProps={{ radius: "sm", blur: 2 }}
-      />
       <div
         style={{
           alignItems: "center",
@@ -161,7 +167,7 @@ function PracticePage() {
             <Text size="lg" fw={"bold"}>
               {formatTime()}
             </Text>
-            <Button fullWidth onClick={submitTest}>
+            <Button fullWidth onClick={submitTest} loading={visible}>
               Submit
             </Button>
           </Paper>
